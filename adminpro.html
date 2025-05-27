@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --accent-color: #e0e7ff;
+            --dark-bg: #1f2937;
+            --dark-card: #374151;
+            --dark-text: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .rtl {
+            direction: rtl;
+        }
+
+        .sidebar {
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+
+        .active-menu {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .dark .active-menu {
+            background-color: var(--dark-card);
+            color: var(--secondary-color);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .sidebar-collapsed {
+            width: 80px;
+        }
+
+        .main-expanded {
+            margin-left: 80px;
+        }
+
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dark .stat-card {
+            background-color: var(--dark-card);
+            border-color: #4b5563;
+            color: var(--dark-text);
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+
+        @media (max-width: 767px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 75%;
+                max-width: 300px;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .mobile-nav-overlay {
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-nav-overlay.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .main-expanded {
+                margin-left: 0;
+            }
+        }
+
+        /* Progress Bar Animation */
+        @keyframes progress {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .progress-bar {
+            animation: progress 1.5s ease-in-out;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            top: -5px;
+            right: -5px;
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 200px;
+            z-index: 50;
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        /* Themes */
+        .theme-primary {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --accent-color: #e0e7ff;
+        }
+
+        .theme-emerald {
+            --primary-color: #059669;
+            --secondary-color: #34d399;
+            --accent-color: #d1fae5;
+        }
+
+        .theme-rose {
+            --primary-color: #e11d48;
+            --secondary-color: #fb7185;
+            --accent-color: #ffe4e6;
+        }
+
+        .theme-amber {
+            --primary-color: #d97706;
+            --secondary-color: #fbbf24;
+            --accent-color: #fef3c7;
+        }
+
+        /* Tables */
+        .table-row {
+            transition: all 0.2s ease;
+        }
+
+        .table-row:hover {
+            background-color: #f9fafb;
+        }
+
+        .dark .table-row:hover {
+            background-color: #374151;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay fixed inset-0 z-40 bg-black/50 lg:hidden"></div>
+
+        <!-- Sidebar -->
+        <aside
+            class="sidebar bg-white dark:bg-gray-800 shadow-lg w-64 flex-shrink-0 flex flex-col overflow-y-auto fixed h-full lg:static z-50">
+            <!-- Logo Section -->
+            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <span class="logo-text text-xl font-bold dark:text-white">Admin Panel</span>
+                </div>
+                <button id="closeSidebar"
+                    class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 lg:hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Menu Items -->
+            <nav class="flex-1 py-4">
+                <div class="space-y-1 px-3">
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg active-menu hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="sidebar-text">Profile</span>
+                    </a>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+                        <span class="sidebar-text">Projects</span>
+                    </a>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        <span class="sidebar-text">Blog</span>
+                    </a>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        <span class="sidebar-text">Clients</span>
+                    </a>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <span class="sidebar-text">Messages</span>
+                        <span
+                            class="ml-auto bg-red-500 text-white text-xs font-medium rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <!-- Users with Dropdown -->
+                    <div class="menu-item relative">
+                        <button onclick="toggleDropdown('userDropdown')"
+                            class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <span class="flex items-center">
+                                <!-- 👤 User Icon -->
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5.121 17.804A7 7 0 0112 15a7 7 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span class="sidebar-text">Users</span>
+                            </span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <ul id="userDropdown" class="hidden ml-8 mt-2 space-y-1">
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    All Users</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                                    Create User</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#"
+                        class="menu-item flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="sidebar-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+                        <img src="/api/placeholder/40/40" alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                    <div class="sidebar-text">
+                        <p class="font-medium dark:text-white">Emay Walter</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Admin</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main
+            class="main-content flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-all duration-300">
+            <!-- Header -->
+            <header
+                class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 flex justify-between items-center sticky top-0 z-30">
+                <div class="flex items-center">
+                    <button id="sidebarToggle"
+                        class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 mr-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-xl font-bold dark:text-white">Dashboard Overview</h1>
+                </div>
+
+                <!-- Header Icons -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button
+                            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 relative"
+                            aria-label="Notifications">
+                            <i class="fas fa-bell text-lg"></i>
+                            <span
+                                class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full notification-badge"></span>
+                        </button>
+                    </div>
+
+                    <div class="relative">
+                        <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                            aria-label="Messages">
+                            <i class="fas fa-envelope text-lg"></i>
+                            <span
+                                class="absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full notification-badge"></span>
+                        </button>
+                    </div>
+
+                    <!-- Theme Selector -->
+                    <div class="relative group">
+                        <button id="themeToggle"
+                            class="flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                            aria-label="Toggle dark mode">
+                            <i class="fas fa-palette text-lg"></i>
+                        </button>
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                            <button
+                                class="theme-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-theme="theme-primary">
+                                <span class="w-3 h-3 rounded-full bg-indigo-600 inline-block mr-2"></span> Indigo Theme
+                            </button>
+                            <button
+                                class="theme-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-theme="theme-emerald">
+                                <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block mr-2"></span> Emerald
+                                Theme
+                            </button>
+                            <button
+                                class="theme-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-theme="theme-rose">
+                                <span class="w-3 h-3 rounded-full bg-rose-600 inline-block mr-2"></span> Rose Theme
+                            </button>
+                            <button
+                                class="theme-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-theme="theme-amber">
+                                <span class="w-3 h-3 rounded-full bg-amber-600 inline-block mr-2"></span> Amber Theme
+                            </button>
+                            <hr class="my-1 border-gray-200 dark:border-gray-700">
+                            <button id="darkModeToggle"
+                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left">
+                                <i class="fas fa-moon mr-2"></i> Dark Mode
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <button
+                            class="flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                            aria-label="Change language">
+                            <i class="fas fa-globe text-lg"></i>
+                        </button>
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                            <button
+                                class="lang-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-lang="en">
+                                <span class="mr-2">🇺🇸</span> English
+                            </button>
+                            <button
+                                class="lang-btn block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                                data-lang="bn">
+                                <span class="mr-2">🇧🇩</span> বাংলা
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="relative user-profile">
+                        <button class="flex items-center focus:outline-none" aria-label="User menu">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                <img src="/api/placeholder/40/40" alt="Profile" class="w-full h-full object-cover">
+                            </div>
+                            <span class="hidden md:block font-medium text-gray-700 dark:text-gray-200">Emay
+                                Walter</span>
+                            <svg class="w-4 h-4 ml-1 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="user-dropdown bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <i class="fas fa-user mr-2"></i> Profile
+                            </a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <i class="fas fa-cog mr-2"></i> Settings
+                            </a>
+                            <hr class="my-1 border-gray-200 dark:border-gray-700">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Welcome Banner -->
+            <div class="p-6">
+                <div
+                    class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 mb-6 text-white relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-2xl font-bold mb-2">Welcome Emay Walter!</h2>
+                            <p class="opacity-90">Here's what's happening in your account today</p>
+                            <button
+                                class="mt-4 bg-white text-indigo-600 hover:bg-opacity-90 px-6 py-2 rounded-lg font-medium transition-all duration-300">
+                                View Profile
+                            </button>
+                        </div>
+                        <div class="relative w-40 h-40 flex-shrink-0">
+                            <img src="/api/placeholder/200/200" alt="Welcome" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full"></div>
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-white/10 rounded-full"></div>
+                </div>
+
+                <!-- Stats Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div
+                        class="stat-card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Total Visitors</p>
+                                <h3 class="text-2xl font-bold mt-2 dark:text-white">$45,195</h3>
+                                <p class="text-green-500 text-sm mt-1 flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    12% vs last month
+                                </p>
+                            </div>
+                            <div
+                                class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 p-3 rounded-lg">
+                                <i class="fas fa-dollar-sign text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="stat-card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Projects</p>
+                                <h3 class="text-2xl font-bold mt-2 dark:text-white">80%</h3>
+                                <p class="text-green-500 text-sm mt-1 flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    3 new this month
+                                </p>
+                            </div>
+                            <div
+                                class="bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 p-3 rounded-lg">
+                                <i class="fas fa-laptop-code text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="stat-card bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Active Users</p>
+                                <h3 class="text-2xl font-bold mt-2 dark:text-white">2,346</h3>
+                                <p class="text-red-500 text-sm mt-1 flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    5% vs last month
+                                </p>
+                            </div>
+                            <div
+                                class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 p-3 rounded-lg">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Tables Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Chart Card -->
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-semibold text-lg dark:text-white">Revenue Overview</h3>
+                            <div class="relative">
+                                <button
+                                    class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-semibold text-lg dark:text-white">Recent Activity</h3>
+                            <a href="#" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">View
+                                All</a>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-check text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium dark:text-white">Project "Nebula" Completed</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-file-invoice-dollar text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium dark:text-white">New Invoice Created</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">5 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-user-plus text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium dark:text-white">New Client Added</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">1 day ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Dashboard Content -->
+
+                <!-- Stats Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Stats Cards (optimized structure) -->
+                    <!-- স্ট্যাটস কার্ড -->
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">মোট ভিজিটর</p>
+                                <h3 class="text-2xl font-bold mt-2">1,254</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 12% গত মাসের তুলনায়
+                                </p>
+                            </div>
+                            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-lg">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">প্রকল্প</p>
+                                <h3 class="text-2xl font-bold mt-2">24</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 3 নতুন এই মাসে
+                                </p>
+                            </div>
+                            <div class="bg-green-100 text-green-600 p-3 rounded-lg">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">ব্লগ পোস্ট</p>
+                                <h3 class="text-2xl font-bold mt-2">18</h3>
+                                <p class="text-red-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-down mr-1"></i> 2% গত মাসের তুলনায়
+                                </p>
+                            </div>
+                            <div class="bg-yellow-100 text-yellow-600 p-3 rounded-lg">
+                                <i class="fas fa-blog"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">ক্লায়েন্ট বার্তা</p>
+                                <h3 class="text-2xl font-bold mt-2">32</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 5 নতুন আজ
+                                </p>
+                            </div>
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ... (keep existing cards structure) ... -->
+                </div>
+
+                <!-- Recent Projects & Blog Posts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Project and Blog Sections -->
+                    <!-- রিসেন্ট প্রজেক্ট -->
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-semibold">সাম্প্রতিক প্রকল্প</h2>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">সব দেখুন</a>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div
+                                    class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mr-4">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">ই-কমার্স ওয়েবসাইট</h4>
+                                    <p class="text-gray-500 text-sm">২ দিন আগে আপডেট করা হয়েছে</p>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">React</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Node.js</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div
+                                    class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">মোবাইল অ্যাপ</h4>
+                                    <p class="text-gray-500 text-sm">১ সপ্তাহ আগে আপডেট করা হয়েছে</p>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">Flutter</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Firebase</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div
+                                    class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mr-4">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">ড্যাশবোর্ড অ্যাপ</h4>
+                                    <p class="text-gray-500 text-sm">২ সপ্তাহ আগে আপডেট করা হয়েছে</p>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">Vue.js</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Laravel</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full border border-dashed border-gray-300 rounded-lg py-2 text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition">
+                            <i class="fas fa-plus mr-2"></i> নতুন প্রকল্প যোগ করুন
+                        </button>
+                    </div>
+
+                    <!-- রিসেন্ট ব্লগ পোস্ট -->
+                    <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-semibold">সাম্প্রতিক ব্লগ পোস্ট</h2>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">সব দেখুন</a>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-16 h-16 rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80"
+                                        alt="Blog" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">রিয়েক্ট জেএস শেখার সম্পূর্ণ গাইড</h4>
+                                    <p class="text-gray-500 text-sm mt-1">৩ দিন আগে পোস্ট করা হয়েছে</p>
+                                    <div class="flex mt-2">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">প্রোগ্রামিং</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">রিয়েক্ট</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="w-16 h-16 rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80"
+                                        alt="Blog" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">টেইলউইন্ড CSS ব্যবহারের উপকারিতা</h4>
+                                    <p class="text-gray-500 text-sm mt-1">১ সপ্তাহ আগে পোস্ট করা হয়েছে</p>
+                                    <div class="flex mt-2">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">CSS</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">ফ্রন্টএন্ড</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="w-16 h-16 rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80"
+                                        alt="Blog" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">নোড.জেএসে REST API তৈরি</h4>
+                                    <p class="text-gray-500 text-sm mt-1">২ সপ্তাহ আগে পোস্ট করা হয়েছে</p>
+                                    <div class="flex mt-2">
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-2">Node.js</span>
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">ব্যাকএন্ড</span>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full border border-dashed border-gray-300 rounded-lg py-2 text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition">
+                            <i class="fas fa-plus mr-2"></i> নতুন ব্লগ পোস্ট করুন
+                        </button>
+                    </div>
+                    <!-- ... (keep existing sections structure) ... -->
+                </div>
+
+                <!-- Client Messages Table -->
+                <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-8">
+                    <div class="overflow-x-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-semibold">সাম্প্রতিক ক্লায়েন্ট বার্তা</h2>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">সব দেখুন</a>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            নাম</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            ইমেইল</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            বার্তা</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            তারিখ</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full"
+                                                        src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">আয়েশা খান</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ayesha@example.com
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500">আমি আপনার সেবা নিতে চাই...</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">২ ঘণ্টা আগে</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">দেখুন</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full"
+                                                        src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">রফিকুল ইসলাম</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">rafiq@example.com
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500">আপনার প্রকল্প সম্পর্কে জানতে চাই...
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">১ দিন আগে</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">দেখুন</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full"
+                                                        src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">তানিয়া আহমেদ</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">tania@example.com
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500">আপনার সাথে কাজ করতে চাই...</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">৩ দিন আগে</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">দেখুন</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post Form -->
+                <div class="card bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                    <!-- Form (optimized structure) -->
+                    <h2 class="text-lg font-semibold mb-6">নতুন ব্লগ পোস্ট তৈরি করুন</h2>
+
+                    <form class="space-y-6">
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">শিরোনাম</label>
+                            <input type="text" id="title"
+                                class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                        </div>
+
+                        <div>
+                            <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">স্লাগ (URL)</label>
+                            <input type="text" id="slug"
+                                class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                        </div>
+
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">ক্যাটাগরি</label>
+                            <select id="category"
+                                class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                                <option>প্রোগ্রামিং</option>
+                                <option>ওয়েব ডেভেলপমেন্ট</option>
+                                <option>মোবাইল অ্যাপ</option>
+                                <option>ডিজাইন</option>
+                                <option>অন্যান্য</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="content" class="block text-sm font-medium text-gray-700 mb-1">কন্টেন্ট</label>
+                            <textarea id="content" rows="8"
+                                class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">ফিচার ইমেজ</label>
+                            <div class="mt-1 flex items-center">
+                                <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </span>
+                                <button type="button"
+                                    class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    পরিবর্তন করুন
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-4">
+                            <button type="button"
+                                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                বাতিল করুন
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                পোস্ট প্রকাশ করুন
+                            </button>
+                        </div>
+                    </form>
+                    <!-- ... (keep existing form structure) ... -->
+                </div>
+
+
+
+            </div>
+
+
+            <!-- Footer -->
+            <footer class="border-t border-gray-200 dark:border-gray-700 mt-auto py-4 px-6">
+                <div
+                    class="flex flex-col md:flex-row items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div class="mb-2 md:mb-0">
+                        © 2023 Admin Panel. All rights reserved.
+                    </div>
+                    <div>
+                        v1.2.0 · Last updated: March 2023
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const mobileOverlay = document.querySelector('.mobile-nav-overlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            mobileOverlay.classList.toggle('show');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            mobileOverlay.classList.remove('show');
+        });
+
+        mobileOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            mobileOverlay.classList.remove('show');
+        });
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Theme Switcher
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.documentElement.className = e.target.dataset.theme;
+            });
+        });
+
+        // Language Switcher
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.body.classList.toggle('rtl', e.target.dataset.lang === 'bn');
+            });
+        });
+
+        // Initialize Chart
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [6500, 5900, 8000, 8100, 5600, 7500],
+                    borderColor: '#4f46e5',
+                    tension: 0.4,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+
+        // Drodown
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('hidden');
+        }
+    </script>
+</body>
+
+</html>

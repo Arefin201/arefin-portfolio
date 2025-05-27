@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমার ব্লগ | পোর্টফোলিও</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        
+        .blog-card {
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tag {
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        .dark-mode {
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .blog-card {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+        
+        .dark-mode .text-gray-800 {
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #d1d5db;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- হেডার -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <h1 class="text-3xl font-bold mb-4 md:mb-0">আমার ব্লগ</h1>
+                <div class="flex items-center space-x-4">
+                    <button id="darkModeToggle" class="bg-white bg-opacity-20 p-2 rounded-full">
+                        <i class="fas fa-moon" id="darkModeIcon"></i>
+                    </button>
+                    <a href="#" class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-medium hover:bg-indigo-100 transition">
+                        পোর্টফোলিও দেখুন
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ব্লগ কন্টেন্ট -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- হিরো সেকশন -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">প্রযুক্তি ও ডেভেলপমেন্ট ব্লগ</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                ওয়েব ডেভেলপমেন্ট, প্রোগ্রামিং এবং ডিজাইন সম্পর্কে আমার অভিজ্ঞতা এবং জ্ঞান শেয়ার করি এখানে।
+            </p>
+        </section>
+        
+        <!-- সার্চ এবং ক্যাটাগরি -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                <input type="text" placeholder="ব্লগ সার্চ করুন..." class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            
+            <div class="flex space-x-2 overflow-x-auto w-full md:w-auto">
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg whitespace-nowrap">সব</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg whitespace-nowrap">ওয়েব ডেভেলপমেন্ট</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg whitespace-nowrap">জাভাস্ক্রিপ্ট</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg whitespace-nowrap">রিয়েক্ট</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg whitespace-nowrap">ডিজাইন</button>
+            </div>
+        </div>
+        
+        <!-- ব্লগ পোস্ট গ্রিড -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- ব্লগ পোস্ট ১ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="রিয়েক্ট জেএস শেখার গাইড" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">রিয়েক্ট</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">জাভাস্ক্রিপ্ট</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">রিয়েক্ট জেএস শেখার সম্পূর্ণ গাইড</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        রিয়েক্ট জেএস শেখা শুরু করার জন্য এই সম্পূর্ণ গাইডে আমি আলোচনা করেছি বেসিক থেকে এডভান্সড পর্যন্ত সবকিছু...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">৩ দিন আগে</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ব্লগ পোস্ট ২ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="টেইলউইন্ড CSS" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">CSS</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">ফ্রন্টএন্ড</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">টেইলউইন্ড CSS ব্যবহারের উপকারিতা</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        টেইলউইন্ড CSS কিভাবে আপনার ডেভেলপমেন্ট প্রক্রিয়াকে গতি দিতে পারে এবং কেন এটি ব্যবহার করা উচিত...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">১ সপ্তাহ আগে</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ব্লগ পোস্ট ৩ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="নোড.জেএস REST API" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">Node.js</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">ব্যাকএন্ড</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">নোড.জেএসে REST API তৈরি</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        সম্পূর্ণ গাইড: কিভাবে নোড.জেএস এবং এক্সপ্রেস ব্যবহার করে একটি RESTful API তৈরি করবেন...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">২ সপ্তাহ আগে</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ব্লগ পোস্ট ৪ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="জাভাস্ক্রিপ্ট ES6" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">জাভাস্ক্রিপ্ট</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">ES6</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">জাভাস্ক্রিপ্ট ES6 ফিচারস</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        জাভাস্ক্রিপ্ট ES6 এর সবচেয়ে গুরুত্বপূর্ণ ফিচারস গুলো নিয়ে বিস্তারিত আলোচনা...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">৩ সপ্তাহ আগে</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ব্লগ পোস্ট ৫ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="মঙ্গোডিবি বেসিক" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">ডাটাবেস</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">মঙ্গোডিবি</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">মঙ্গোডিবি বেসিক থেকে এডভান্সড</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        মঙ্গোডিবি কিভাবে কাজ করে এবং কিভাবে এটি আপনার নোড.জেএস অ্যাপ্লিকেশনে ব্যবহার করবেন...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">১ মাস আগে</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- ব্লগ পোস্ট ৬ -->
+            <article class="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="টিম ম্যানেজমেন্ট" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">ক্যারিয়ার</span>
+                        <span class="tag bg-indigo-100 dark:bg-gray-700 text-indigo-800 dark:text-indigo-400 text-xs px-3 py-1 rounded-full">টিম</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">ডেভেলপার হিসেবে কিভাবে টিম ম্যানেজ করবেন</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        ডেভেলপার টিম লিড হিসেবে কিভাবে আপনার টিমকে ম্যানেজ করবেন এবং প্রোডাক্টিভিটি বাড়াবেন...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="জাহিদ হাসান" class="w-full h-full object-cover">
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">জাহিদ হাসান</span>
+                        </div>
+                        <span class="text-sm text-gray-500">২ মাস আগে</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <!-- পেজিনেশন -->
+        <div class="flex justify-center">
+            <nav class="flex items-center space-x-2">
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg">1</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">2</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">3</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </nav>
+        </div>
+    </main>
+
+    <!-- ফুটার -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">আমার পোর্টফোলিও</h3>
+                    <p class="text-gray-400">
+                        ওয়েব ডেভেলপমেন্ট এবং ডিজাইন সম্পর্কে আমার কাজ এবং অভিজ্ঞতা শেয়ার করি।
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">লিংক</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">হোম</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">আমার সম্পর্কে</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">প্রকল্প</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">ব্লগ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">যোগাযোগ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">ক্যাটাগরি</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">ওয়েব ডেভেলপমেন্ট</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">জাভাস্ক্রিপ্ট</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">রিয়েক্ট</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Node.js</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">ডিজাইন</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">যোগাযোগ</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-2"></i> jahid@example.com
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-phone-alt mr-2"></i> +880 1234 567890
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i> ঢাকা, বাংলাদেশ
+                        </li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© ২০২৩ জাহিদ হাসান। সকল অধিকার সংরক্ষিত।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ডার্ক মোড টগল
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            const icon = document.getElementById('darkModeIcon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // পেইজ লোডে ডার্ক মোড চেক করুন
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeIcon').classList.remove('fa-moon');
+            document.getElementById('darkModeIcon').classList.add('fa-sun');
+        }
+    </script>
+</body>
+</html>
