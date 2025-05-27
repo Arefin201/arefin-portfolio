@@ -67,16 +67,19 @@
             transition: width 2s ease-in-out;
         }
 
-        .project-card {
+        .project-card,
+        .blog-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .project-card:hover {
+        .project-card:hover,
+        .blog-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .dark .project-card:hover {
+        .dark .project-card:hover,
+        .dark .blog-card:hover {
             box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
         }
 
@@ -103,6 +106,69 @@
         .nav-link:hover::after {
             left: 0;
         }
+
+        .blog-content {
+            display: none;
+        }
+
+        .blog-content.active {
+            display: block;
+        }
+
+        .blog-filter.active {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: white;
+            }
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .testimonial-slider {
+            overflow: hidden;
+        }
+
+        .testimonial-slide {
+            transition: transform 0.5s ease;
+        }
     </style>
 </head>
 
@@ -121,6 +187,7 @@
                     <a href="#skills" class="nav-link hover:text-blue-500 transition-colors">Skills</a>
                     <a href="#services" class="nav-link hover:text-blue-500 transition-colors">Services</a>
                     <a href="#portfolio" class="nav-link hover:text-blue-500 transition-colors">Portfolio</a>
+                    <a href="#blog" class="nav-link hover:text-blue-500 transition-colors">Blog</a>
                     <a href="#contact" class="nav-link hover:text-blue-500 transition-colors">Contact</a>
                     <a href="adminpro.html" class="nav-link hover:text-blue-500 transition-colors">Dashboard</a>
 
@@ -146,8 +213,10 @@
                 <a href="#skills" class="block py-2 hover:text-blue-500">Skills</a>
                 <a href="#services" class="block py-2 hover:text-blue-500">Services</a>
                 <a href="#portfolio" class="block py-2 hover:text-blue-500">Portfolio</a>
+                <a href="#blog" class="block py-2 hover:text-blue-500">Blog</a>
                 <a href="#contact" class="block py-2 hover:text-blue-500">Contact</a>
                 <a href="adminpro.html" class="block py-2 hover:text-blue-500">Dashboard</a>
+
             </div>
         </div>
     </nav>
@@ -167,14 +236,12 @@
                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
                     alt="Profile" class="w-40 h-40 rounded-full mx-auto border-4 border-white shadow-2xl floating">
             </div>
-            <h1 class="text-5xl md:text-7xl font-bold mb-4 fade-in">
-                John Doe
-            </h1>
-            <p class="text-xl md:text-2xl mb-2 fade-in" style="animation-delay: 0.3s;">
-                Full Stack Developer
-            </p>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 fade-in">John Doe</h1>
+            <div class="text-xl md:text-2xl mb-2 fade-in typing-animation" style="animation-delay: 0.3s;">
+                Full Stack Developer & Tech Blogger
+            </div>
             <p class="text-lg mb-8 max-w-2xl mx-auto fade-in" style="animation-delay: 0.6s;">
-                Passionate about creating amazing web experiences with modern technologies
+                Passionate about creating amazing web experiences and sharing knowledge through blogging
             </p>
             <div class="space-x-4 fade-in" style="animation-delay: 0.9s;">
                 <button
@@ -183,14 +250,38 @@
                 </button>
                 <button
                     class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-800 transition-colors">
-                    Download CV
+                    Read My Blog
                 </button>
             </div>
         </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="py-16 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="fade-in">
+                    <div class="counter" data-target="50">0</div>
+                    <p class="text-gray-600 dark:text-gray-400">Projects Completed</p>
+                </div>
+                <div class="fade-in">
+                    <div class="counter" data-target="25">0</div>
+                    <p class="text-gray-600 dark:text-gray-400">Happy Clients</p>
+                </div>
+                <div class="fade-in">
+                    <div class="counter" data-target="100">0</div>
+                    <p class="text-gray-600 dark:text-gray-400">Blog Articles</p>
+                </div>
+                <div class="fade-in">
+                    <div class="counter" data-target="5">0</div>
+                    <p class="text-gray-600 dark:text-gray-400">Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
-    <section id="about" class="py-20 bg-white dark:bg-gray-800">
+    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4 fade-in">About Me</h2>
@@ -203,11 +294,12 @@
                         alt="About Me" class="rounded-lg shadow-lg w-full">
                 </div>
                 <div class="fade-in">
-                    <h3 class="text-2xl font-bold mb-4">I'm a Full Stack Developer</h3>
+                    <h3 class="text-2xl font-bold mb-4">I'm a Full Stack Developer & Tech Blogger</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-6">
                         With over 5 years of experience in web development, I specialize in creating
                         responsive and user-friendly applications using modern technologies like React,
-                        Laravel, and Node.js. I'm passionate about clean code and elegant solutions.
+                        Laravel, and Node.js. I'm also passionate about sharing knowledge through my blog,
+                        where I write about the latest tech trends and development tips.
                     </p>
 
                     <div class="grid grid-cols-2 gap-4 mb-6">
@@ -238,7 +330,7 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-gray-50 dark:bg-gray-900">
+    <section id="skills" class="py-20 bg-white dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4 fade-in">My Skills</h2>
@@ -247,7 +339,7 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Frontend Skills -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg fade-in">
+                <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg fade-in">
                     <div class="text-center mb-6">
                         <i class="fas fa-code text-4xl text-blue-500 mb-4"></i>
                         <h3 class="text-xl font-bold">Frontend</h3>
@@ -284,7 +376,7 @@
                 </div>
 
                 <!-- Backend Skills -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg fade-in">
+                <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg fade-in">
                     <div class="text-center mb-6">
                         <i class="fas fa-server text-4xl text-green-500 mb-4"></i>
                         <h3 class="text-xl font-bold">Backend</h3>
@@ -321,7 +413,7 @@
                 </div>
 
                 <!-- Tools -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg fade-in">
+                <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg fade-in">
                     <div class="text-center mb-6">
                         <i class="fas fa-tools text-4xl text-purple-500 mb-4"></i>
                         <h3 class="text-xl font-bold">Tools</h3>
@@ -361,7 +453,7 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20 bg-white dark:bg-gray-800">
+    <section id="services" class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4 fade-in">My Services</h2>
@@ -370,7 +462,7 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
                         <i class="fas fa-laptop-code text-4xl text-blue-500 mb-6"></i>
                         <h3 class="text-xl font-bold mb-4">Web Development</h3>
@@ -381,7 +473,7 @@
                 </div>
 
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
                         <i class="fas fa-mobile-alt text-4xl text-green-500 mb-6"></i>
                         <h3 class="text-xl font-bold mb-4">Responsive Design</h3>
@@ -392,7 +484,7 @@
                 </div>
 
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
                         <i class="fas fa-search text-4xl text-purple-500 mb-6"></i>
                         <h3 class="text-xl font-bold mb-4">SEO Optimization</h3>
@@ -403,18 +495,18 @@
                 </div>
 
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
-                        <i class="fas fa-bug text-4xl text-red-500 mb-6"></i>
-                        <h3 class="text-xl font-bold mb-4">Bug Fixing</h3>
+                        <i class="fas fa-blog text-4xl text-red-500 mb-6"></i>
+                        <h3 class="text-xl font-bold mb-4">Content Writing</h3>
                         <p class="text-gray-600 dark:text-gray-400">
-                            Quick and efficient debugging and fixing of existing applications.
+                            Technical blog writing and content creation for your business needs.
                         </p>
                     </div>
                 </div>
 
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
                         <i class="fas fa-database text-4xl text-yellow-500 mb-6"></i>
                         <h3 class="text-xl font-bold mb-4">Database Design</h3>
@@ -425,7 +517,7 @@
                 </div>
 
                 <div
-                    class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
+                    class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow fade-in">
                     <div class="text-center">
                         <i class="fas fa-headset text-4xl text-indigo-500 mb-6"></i>
                         <h3 class="text-xl font-bold mb-4">24/7 Support</h3>
@@ -437,79 +529,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-gray-50 dark:bg-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4 fade-in">My Portfolio</h2>
-                <p class="text-gray-600 dark:text-gray-400 fade-in">Some of my recent work</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="project-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"
-                        alt="Project 1" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">E-commerce Platform</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">
-                            A full-featured e-commerce platform built with React and Laravel.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">React</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Laravel</span>
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">MySQL</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
-                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop"
-                        alt="Project 2" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Task Management App</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">
-                            A collaborative task management application with real-time updates.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Vue.js</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Node.js</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Socket.io</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
-                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in">
-                    <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=250&fit=crop"
-                        alt="Project 3" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Portfolio Website</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">
-                            A responsive portfolio website with modern animations and effects.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">HTML</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">CSS</span>
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">JavaScript</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
-                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Experience Section -->
     <section id="experience" class="py-20 bg-white dark:bg-gray-800">
         <div class="container mx-auto px-4">
@@ -568,6 +587,167 @@
                             <p class="text-gray-600 dark:text-gray-400">
                                 Focused on creating beautiful and interactive user interfaces.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 fade-in">My Portfolio</h2>
+                <p class="text-gray-600 dark:text-gray-400 fade-in">Some of my recent work</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="project-card bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden fade-in">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"
+                        alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">E-commerce Platform</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            A full-featured e-commerce platform built with React and Laravel.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">React</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Laravel</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">MySQL</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
+                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden fade-in">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop"
+                        alt="Project 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Task Management App</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            A collaborative task management application with real-time updates.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Vue.js</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Node.js</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Socket.io</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
+                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden fade-in">
+                    <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=250&fit=crop"
+                        alt="Project 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Tech Blog Platform</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            A modern blog platform with CMS features and SEO optimization.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Next.js</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Strapi</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">MongoDB</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-blue-500 hover:underline">Live Demo</a>
+                            <a href="#" class="text-gray-500 hover:underline">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 fade-in">Latest Blog Posts</h2>
+                <p class="text-gray-600 dark:text-gray-400 fade-in">Sharing knowledge and insights</p>
+            </div>
+
+            <!-- Blog Filter -->
+            <div class="flex justify-center mb-12">
+                <div class="flex flex-wrap gap-4">
+                    <button class="blog-filter active px-6 py-2 rounded-full border-2 border-blue-500 transition-colors"
+                        data-filter="all">
+                        All Posts
+                    </button>
+                    <button
+                        class="blog-filter px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 transition-colors"
+                        data-filter="javascript">
+                        JavaScript
+                    </button>
+                    <button
+                        class="blog-filter px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 transition-colors"
+                        data-filter="react">
+                        React
+                    </button>
+                    <button
+                        class="blog-filter px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 transition-colors"
+                        data-filter="nodejs">
+                        Node.js
+                    </button>
+                </div>
+            </div>
+
+            <!-- Blog Posts -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="blog-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in"
+                    data-category="javascript">
+                    <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop"
+                        alt="JavaScript Post" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-blue-500 text-sm font-semibold">JavaScript</span>
+                        <h3 class="text-xl font-bold my-3">Mastering ES6 Features</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            Deep dive into modern JavaScript features every developer should know.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>May 15, 2024</span>
+                            <a href="#" class="text-blue-500 hover:underline">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in"
+                    data-category="react">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop"
+                        alt="React Post" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-green-500 text-sm font-semibold">React</span>
+                        <h3 class="text-xl font-bold my-3">React Hooks Best Practices</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            Optimize your React components with modern hooks patterns.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>May 12, 2024</span>
+                            <a href="#" class="text-blue-500 hover:underline">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden fade-in"
+                    data-category="nodejs">
+                    <img src="https://images.unsplash.com/photo-1589652717521-10c0d092dea9?w=400&h=250&fit=crop"
+                        alt="Node.js Post" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-purple-500 text-sm font-semibold">Node.js</span>
+                        <h3 class="text-xl font-bold my-3">Building REST APIs with Express</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            Comprehensive guide to creating scalable Node.js APIs.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>May 10, 2024</span>
+                            <a href="#" class="text-blue-500 hover:underline">Read More →</a>
                         </div>
                     </div>
                 </div>
@@ -713,18 +893,17 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        // Dark Mode Toggle
+        // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
 
         themeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
         });
 
-        // Mobile Menu Toggle
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -732,7 +911,7 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Intersection Observer for fade-in animations
+        // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -741,14 +920,49 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // Form Submission
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Add your form submission logic here
-            alert('Thank you for your message! I will get back to you soon.');
-            e.target.reset();
+        // Skill Bar Animation
+        document.querySelectorAll('.skill-bar').forEach(bar => {
+            bar.style.width = '0';
+            setTimeout(() => bar.style.width = bar.dataset.width, 500);
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.dataset.target;
+                const count = +counter.innerText;
+                const increment = target / 100;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            }
+            updateCount();
+        });
+
+        // Blog Filter
+        const blogFilters = document.querySelectorAll('.blog-filter');
+        const blogCards = document.querySelectorAll('.blog-card');
+
+        blogFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                const category = filter.dataset.filter;
+
+                blogFilters.forEach(f => f.classList.remove('active', 'text-white'));
+                filter.classList.add('active', 'text-white');
+
+                blogCards.forEach(card => {
+                    card.style.display = category === 'all' || card.dataset.category === category
+                        ? 'block'
+                        : 'none';
+                });
+            });
         });
 
         // Smooth Scroll
